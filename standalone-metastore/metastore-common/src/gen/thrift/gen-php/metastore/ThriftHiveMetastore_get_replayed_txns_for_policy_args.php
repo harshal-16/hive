@@ -16,39 +16,35 @@ use Thrift\Protocol\TProtocol;
 use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
-class ThriftHiveMetastore_get_all_token_identifiers_result
+class ThriftHiveMetastore_get_replayed_txns_for_policy_args
 {
     static public $isValidate = false;
 
     static public $_TSPEC = array(
-        0 => array(
-            'var' => 'success',
+        1 => array(
+            'var' => 'policyName',
             'isRequired' => false,
-            'type' => TType::LST,
-            'etype' => TType::STRING,
-            'elem' => array(
-                'type' => TType::STRING,
-                ),
+            'type' => TType::STRING,
         ),
     );
 
     /**
-     * @var string[]
+     * @var string
      */
-    public $success = null;
+    public $policyName = null;
 
     public function __construct($vals = null)
     {
         if (is_array($vals)) {
-            if (isset($vals['success'])) {
-                $this->success = $vals['success'];
+            if (isset($vals['policyName'])) {
+                $this->policyName = $vals['policyName'];
             }
         }
     }
 
     public function getName()
     {
-        return 'ThriftHiveMetastore_get_all_token_identifiers_result';
+        return 'ThriftHiveMetastore_get_replayed_txns_for_policy_args';
     }
 
 
@@ -65,18 +61,9 @@ class ThriftHiveMetastore_get_all_token_identifiers_result
                 break;
             }
             switch ($fid) {
-                case 0:
-                    if ($ftype == TType::LST) {
-                        $this->success = array();
-                        $_size1920 = 0;
-                        $_etype1923 = 0;
-                        $xfer += $input->readListBegin($_etype1923, $_size1920);
-                        for ($_i1924 = 0; $_i1924 < $_size1920; ++$_i1924) {
-                            $elem1925 = null;
-                            $xfer += $input->readString($elem1925);
-                            $this->success []= $elem1925;
-                        }
-                        $xfer += $input->readListEnd();
+                case 1:
+                    if ($ftype == TType::STRING) {
+                        $xfer += $input->readString($this->policyName);
                     } else {
                         $xfer += $input->skip($ftype);
                     }
@@ -94,17 +81,10 @@ class ThriftHiveMetastore_get_all_token_identifiers_result
     public function write($output)
     {
         $xfer = 0;
-        $xfer += $output->writeStructBegin('ThriftHiveMetastore_get_all_token_identifiers_result');
-        if ($this->success !== null) {
-            if (!is_array($this->success)) {
-                throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
-            }
-            $xfer += $output->writeFieldBegin('success', TType::LST, 0);
-            $output->writeListBegin(TType::STRING, count($this->success));
-            foreach ($this->success as $iter1926) {
-                $xfer += $output->writeString($iter1926);
-            }
-            $output->writeListEnd();
+        $xfer += $output->writeStructBegin('ThriftHiveMetastore_get_replayed_txns_for_policy_args');
+        if ($this->policyName !== null) {
+            $xfer += $output->writeFieldBegin('policyName', TType::STRING, 1);
+            $xfer += $output->writeString($this->policyName);
             $xfer += $output->writeFieldEnd();
         }
         $xfer += $output->writeFieldStop();

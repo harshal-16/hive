@@ -16,39 +16,43 @@ use Thrift\Protocol\TProtocol;
 use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
-class ThriftHiveMetastore_get_all_token_identifiers_result
+class ReplayedTxnsForPolicyResult
 {
     static public $isValidate = false;
 
     static public $_TSPEC = array(
-        0 => array(
-            'var' => 'success',
+        1 => array(
+            'var' => 'replTxnMapEntry',
             'isRequired' => false,
-            'type' => TType::LST,
-            'etype' => TType::STRING,
-            'elem' => array(
+            'type' => TType::MAP,
+            'ktype' => TType::STRING,
+            'vtype' => TType::STRING,
+            'key' => array(
+                'type' => TType::STRING,
+            ),
+            'val' => array(
                 'type' => TType::STRING,
                 ),
         ),
     );
 
     /**
-     * @var string[]
+     * @var array
      */
-    public $success = null;
+    public $replTxnMapEntry = null;
 
     public function __construct($vals = null)
     {
         if (is_array($vals)) {
-            if (isset($vals['success'])) {
-                $this->success = $vals['success'];
+            if (isset($vals['replTxnMapEntry'])) {
+                $this->replTxnMapEntry = $vals['replTxnMapEntry'];
             }
         }
     }
 
     public function getName()
     {
-        return 'ThriftHiveMetastore_get_all_token_identifiers_result';
+        return 'ReplayedTxnsForPolicyResult';
     }
 
 
@@ -65,18 +69,21 @@ class ThriftHiveMetastore_get_all_token_identifiers_result
                 break;
             }
             switch ($fid) {
-                case 0:
-                    if ($ftype == TType::LST) {
-                        $this->success = array();
-                        $_size1920 = 0;
-                        $_etype1923 = 0;
-                        $xfer += $input->readListBegin($_etype1923, $_size1920);
-                        for ($_i1924 = 0; $_i1924 < $_size1920; ++$_i1924) {
-                            $elem1925 = null;
-                            $xfer += $input->readString($elem1925);
-                            $this->success []= $elem1925;
+                case 1:
+                    if ($ftype == TType::MAP) {
+                        $this->replTxnMapEntry = array();
+                        $_size1409 = 0;
+                        $_ktype1410 = 0;
+                        $_vtype1411 = 0;
+                        $xfer += $input->readMapBegin($_ktype1410, $_vtype1411, $_size1409);
+                        for ($_i1413 = 0; $_i1413 < $_size1409; ++$_i1413) {
+                            $key1414 = '';
+                            $val1415 = '';
+                            $xfer += $input->readString($key1414);
+                            $xfer += $input->readString($val1415);
+                            $this->replTxnMapEntry[$key1414] = $val1415;
                         }
-                        $xfer += $input->readListEnd();
+                        $xfer += $input->readMapEnd();
                     } else {
                         $xfer += $input->skip($ftype);
                     }
@@ -94,17 +101,18 @@ class ThriftHiveMetastore_get_all_token_identifiers_result
     public function write($output)
     {
         $xfer = 0;
-        $xfer += $output->writeStructBegin('ThriftHiveMetastore_get_all_token_identifiers_result');
-        if ($this->success !== null) {
-            if (!is_array($this->success)) {
+        $xfer += $output->writeStructBegin('ReplayedTxnsForPolicyResult');
+        if ($this->replTxnMapEntry !== null) {
+            if (!is_array($this->replTxnMapEntry)) {
                 throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
             }
-            $xfer += $output->writeFieldBegin('success', TType::LST, 0);
-            $output->writeListBegin(TType::STRING, count($this->success));
-            foreach ($this->success as $iter1926) {
-                $xfer += $output->writeString($iter1926);
+            $xfer += $output->writeFieldBegin('replTxnMapEntry', TType::MAP, 1);
+            $output->writeMapBegin(TType::STRING, TType::STRING, count($this->replTxnMapEntry));
+            foreach ($this->replTxnMapEntry as $kiter1416 => $viter1417) {
+                $xfer += $output->writeString($kiter1416);
+                $xfer += $output->writeString($viter1417);
             }
-            $output->writeListEnd();
+            $output->writeMapEnd();
             $xfer += $output->writeFieldEnd();
         }
         $xfer += $output->writeFieldStop();
